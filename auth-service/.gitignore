@@ -1,0 +1,53 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/
+
+# Test binary
+*.test
+
+# Output
+*.out
+
+# Go workspace file
+go.work
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated files
+gen/
+*.gen.go
+
+# Logs
+*.log
+logs/
+
+# Coverage
+*.coverprofile
+coverage.out
+coverage.html
+
+# Temporary files
+tmp/
+temp/
+
+#kiro
+.kiro

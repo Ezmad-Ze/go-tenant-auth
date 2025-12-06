@@ -1,0 +1,1400 @@
+basePath: /
+definitions:
+  github_com_ezmad_auth-service_internal_domain.ABACCondition:
+    properties:
+      attribute:
+        description: e.g., "project.owner_id"
+        type: string
+      operator:
+        description: e.g., "equals", "not_equals", "in"
+        type: string
+      value:
+        description: e.g., "user.id"
+    type: object
+  github_com_ezmad_auth-service_internal_domain.ABACRule:
+    properties:
+      conditions:
+        items:
+          $ref: '#/definitions/github_com_ezmad_auth-service_internal_domain.ABACCondition'
+        type: array
+    type: object
+  github_com_ezmad_auth-service_internal_domain.Permission:
+    properties:
+      abac_rule:
+        $ref: '#/definitions/github_com_ezmad_auth-service_internal_domain.ABACRule'
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      resource_id:
+        type: string
+      scope_id:
+        type: string
+      tenant_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  github_com_ezmad_auth-service_internal_domain.Role:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      is_system:
+        type: boolean
+      name:
+        type: string
+      tenant_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  github_com_ezmad_auth-service_internal_service.TenantUpdateRequest:
+    properties:
+      domain:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      settings:
+        additionalProperties: true
+        type: object
+      slug:
+        type: string
+    type: object
+  internal_http_handlers.AssignPermissionRoleRequest:
+    properties:
+      permission_id:
+        example: uuid-string
+        type: string
+      role_id:
+        example: uuid-string
+        type: string
+    type: object
+  internal_http_handlers.AssignPermissionUserRequest:
+    properties:
+      permission_id:
+        example: uuid-string
+        type: string
+      user_id:
+        example: uuid-string
+        type: string
+    type: object
+  internal_http_handlers.AssignRoleRequest:
+    properties:
+      role_id:
+        example: uuid-string
+        type: string
+      user_id:
+        example: uuid-string
+        type: string
+    type: object
+  internal_http_handlers.BackupCodesResponse:
+    properties:
+      backup_codes:
+        items:
+          type: string
+        type: array
+    type: object
+  internal_http_handlers.ChangePasswordRequest:
+    properties:
+      new_password:
+        example: new_secret
+        type: string
+      old_password:
+        example: old_secret
+        type: string
+    type: object
+  internal_http_handlers.CheckPermissionRequest:
+    properties:
+      attributes:
+        additionalProperties: true
+        type: object
+      resource:
+        example: document
+        type: string
+      scope:
+        example: read
+        type: string
+      user_id:
+        example: uuid-string
+        type: string
+    type: object
+  internal_http_handlers.CheckPermissionResponse:
+    properties:
+      has_permission:
+        type: boolean
+      permission:
+        type: string
+    type: object
+  internal_http_handlers.CreatePermissionRequest:
+    properties:
+      description:
+        example: Read documents
+        type: string
+      resource_name:
+        example: document
+        type: string
+      scope_name:
+        example: read
+        type: string
+    type: object
+  internal_http_handlers.CreateRoleRequest:
+    properties:
+      description:
+        example: Editor role
+        type: string
+      is_system:
+        type: boolean
+      name:
+        example: editor
+        type: string
+    type: object
+  internal_http_handlers.CreateTenantRequest:
+    properties:
+      admin_email:
+        example: admin@acme.com
+        type: string
+      admin_password:
+        example: secret123
+        type: string
+      domain:
+        example: acme.com
+        type: string
+      name:
+        example: Acme Corp
+        type: string
+      settings:
+        additionalProperties: true
+        type: object
+      slug:
+        example: acme
+        type: string
+    type: object
+  internal_http_handlers.EmailRequest:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+    type: object
+  internal_http_handlers.ErrorResponse:
+    properties:
+      error:
+        example: Invalid credentials
+        type: string
+    type: object
+  internal_http_handlers.ListResourcesResponse:
+    properties:
+      resources:
+        items:
+          type: string
+        type: array
+    type: object
+  internal_http_handlers.ListScopesResponse:
+    properties:
+      scopes:
+        items:
+          type: string
+        type: array
+    type: object
+  internal_http_handlers.LoginRequest:
+    properties:
+      backup_code:
+        example: "12345678"
+        type: string
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: secret123
+        type: string
+      totp:
+        example: "123456"
+        type: string
+    type: object
+  internal_http_handlers.MessageResponse:
+    properties:
+      message:
+        example: Operation successful
+        type: string
+    type: object
+  internal_http_handlers.RefreshTokenRequest:
+    properties:
+      refresh_token:
+        example: refresh_token_string
+        type: string
+    type: object
+  internal_http_handlers.RegisterRequest:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      first_name:
+        example: John
+        type: string
+      last_name:
+        example: Doe
+        type: string
+      metadata:
+        additionalProperties: true
+        type: object
+      password:
+        example: secret123
+        type: string
+      phone:
+        example: "+1234567890"
+        type: string
+      username:
+        example: jdoe
+        type: string
+    type: object
+  internal_http_handlers.RevokeRoleRequest:
+    properties:
+      role_id:
+        example: uuid-string
+        type: string
+      user_id:
+        example: uuid-string
+        type: string
+    type: object
+  internal_http_handlers.TOTPDisableRequest:
+    properties:
+      password:
+        example: secret123
+        type: string
+    type: object
+  internal_http_handlers.TOTPSetupResponse:
+    properties:
+      backup_codes:
+        items:
+          type: string
+        type: array
+      qr_code_url:
+        type: string
+      secret:
+        type: string
+    type: object
+  internal_http_handlers.TOTPVerifyRequest:
+    properties:
+      code:
+        example: "123456"
+        type: string
+    type: object
+  internal_http_handlers.TenantListResponse:
+    properties:
+      tenants:
+        items: {}
+        type: array
+    type: object
+  internal_http_handlers.TenantResponse:
+    properties:
+      created_at:
+        type: string
+      domain:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      settings:
+        additionalProperties: true
+        type: object
+      slug:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_http_handlers.TokenRequest:
+    properties:
+      token:
+        example: verification_token_string
+        type: string
+    type: object
+  internal_http_handlers.TokenResponse:
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+      refresh_token:
+        type: string
+      token_type:
+        example: Bearer
+        type: string
+      user_id:
+        type: string
+    type: object
+  internal_http_handlers.UserPermissionsResponse:
+    properties:
+      permissions:
+        items:
+          type: string
+        type: array
+    type: object
+  internal_http_handlers.UserRolesResponse:
+    properties:
+      roles:
+        items: {}
+        type: array
+    type: object
+host: localhost:6969
+info:
+  contact:
+    email: support@authservice.com
+    name: API Support
+  description: Multi-tenant authentication and authorization service with TOTP 2FA,
+    RBAC/ABAC, and comprehensive security features
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Auth Service API
+  version: "1.0"
+paths:
+  /auth/2fa/backup-codes:
+    post:
+      consumes:
+      - application/json
+      description: Generate new backup codes for 2FA
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.BackupCodesResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Generate backup codes
+      tags:
+      - 2FA
+  /auth/2fa/disable:
+    post:
+      consumes:
+      - application/json
+      description: Disable TOTP 2FA (requires password)
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Password
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.TOTPDisableRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Disable TOTP 2FA
+      tags:
+      - 2FA
+  /auth/2fa/enable:
+    post:
+      consumes:
+      - application/json
+      description: Enable TOTP 2FA after successful verification
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: TOTP code
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.TOTPVerifyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Enable TOTP 2FA
+      tags:
+      - 2FA
+  /auth/2fa/setup:
+    post:
+      consumes:
+      - application/json
+      description: Generate TOTP secret and QR code for 2FA setup
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.TOTPSetupResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Setup TOTP 2FA
+      tags:
+      - 2FA
+  /auth/2fa/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify a TOTP code
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: TOTP code
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.TOTPVerifyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Verify TOTP code
+      tags:
+      - 2FA
+  /auth/email/send-verification:
+    post:
+      consumes:
+      - application/json
+      description: Send a new verification email to the authenticated user
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Send verification email
+      tags:
+      - Authentication
+  /auth/email/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify user's email address using a token
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Verification token
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.TokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      summary: Verify email address
+      tags:
+      - Authentication
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return access/refresh tokens. Supports 2FA
+        and backup codes.
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Device Fingerprint
+        in: header
+        name: X-Device-Fingerprint
+        type: string
+      - description: Login credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      summary: User login
+      tags:
+      - Authentication
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Invalidate the current session
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: User logout
+      tags:
+      - Authentication
+  /auth/magic-link/send:
+    post:
+      consumes:
+      - application/json
+      description: Send a magic link to the user's email for passwordless login
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Email address
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.EmailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      summary: Send magic link
+      tags:
+      - Authentication
+  /auth/magic-link/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify a magic link token and return access/refresh tokens
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Magic link token
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.TokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      summary: Verify magic link
+      tags:
+      - Authentication
+  /auth/password/change:
+    post:
+      consumes:
+      - application/json
+      description: Change the authenticated user's password
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Password change details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Change password
+      tags:
+      - Authentication
+  /auth/password/reset:
+    post:
+      consumes:
+      - application/json
+      description: Send a password reset link to the user's email
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Email address
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.EmailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      summary: Request password reset
+      tags:
+      - Authentication
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Get a new access token using a refresh token
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Refresh token
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      summary: Refresh access token
+      tags:
+      - Authentication
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user in the tenant
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Registration details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_http_handlers.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      summary: Register a new user
+      tags:
+      - Authentication
+  /authz/check:
+    post:
+      consumes:
+      - application/json
+      description: Check if a user has permission for a resource and scope
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Permission check details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.CheckPermissionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.CheckPermissionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Check permission
+      tags:
+      - Authorization
+  /authz/permissions:
+    get:
+      consumes:
+      - application/json
+      description: Get all permissions for the authenticated user
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.UserPermissionsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user permissions
+      tags:
+      - Authorization
+    post:
+      consumes:
+      - application/json
+      description: Create a new permission
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Permission details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.CreatePermissionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_ezmad_auth-service_internal_domain.Permission'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create permission
+      tags:
+      - Authorization
+  /authz/permissions/assign-to-role:
+    post:
+      consumes:
+      - application/json
+      description: Assign a permission to a role
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Assignment details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.AssignPermissionRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Assign permission to role
+      tags:
+      - Authorization
+  /authz/permissions/assign-to-user:
+    post:
+      consumes:
+      - application/json
+      description: Assign a permission directly to a user
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Assignment details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.AssignPermissionUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Assign permission to user
+      tags:
+      - Authorization
+  /authz/resources:
+    get:
+      consumes:
+      - application/json
+      description: List all resources
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ListResourcesResponse'
+      security:
+      - BearerAuth: []
+      summary: List resources
+      tags:
+      - Authorization
+    post:
+      consumes:
+      - application/json
+      description: Create a new resource
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+      security:
+      - BearerAuth: []
+      summary: Create resource
+      tags:
+      - Authorization
+  /authz/roles:
+    post:
+      consumes:
+      - application/json
+      description: Create a new role
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Role details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.CreateRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_ezmad_auth-service_internal_domain.Role'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create role
+      tags:
+      - Authorization
+  /authz/roles/assign:
+    post:
+      consumes:
+      - application/json
+      description: Assign a role to a user
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Assignment details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.AssignRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Assign role
+      tags:
+      - Authorization
+  /authz/roles/revoke:
+    delete:
+      consumes:
+      - application/json
+      description: Revoke a role from a user
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Revocation details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.RevokeRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Revoke role
+      tags:
+      - Authorization
+  /authz/scopes:
+    get:
+      consumes:
+      - application/json
+      description: List all scopes
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ListScopesResponse'
+      security:
+      - BearerAuth: []
+      summary: List scopes
+      tags:
+      - Authorization
+    post:
+      consumes:
+      - application/json
+      description: Create a new scope
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_http_handlers.MessageResponse'
+      security:
+      - BearerAuth: []
+      summary: Create scope
+      tags:
+      - Authorization
+  /authz/users/{userID}/roles:
+    get:
+      consumes:
+      - application/json
+      description: Get all roles for a user
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.UserRolesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user roles
+      tags:
+      - Authorization
+  /tenants:
+    get:
+      consumes:
+      - application/json
+      description: List all tenants
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.TenantListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List tenants
+      tags:
+      - Tenants
+    post:
+      consumes:
+      - application/json
+      description: Create a new tenant with an admin user
+      parameters:
+      - description: Tenant details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_handlers.CreateTenantRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_http_handlers.TenantResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      summary: Create tenant
+      tags:
+      - Tenants
+  /tenants/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get tenant by ID
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Tenant ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.TenantResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get tenant
+      tags:
+      - Tenants
+    put:
+      consumes:
+      - application/json
+      description: Update tenant settings
+      parameters:
+      - description: Tenant ID
+        in: header
+        name: X-Tenant-ID
+        required: true
+        type: string
+      - description: Tenant ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ezmad_auth-service_internal_service.TenantUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http_handlers.TenantResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_http_handlers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update tenant
+      tags:
+      - Tenants
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

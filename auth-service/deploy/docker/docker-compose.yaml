@@ -1,0 +1,125 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: auth-db
+    environment:
+      POSTGRES_USER: authuser
+      POSTGRES_PASSWORD: authpass
+      POSTGRES_DB: authdb
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U authuser -d authdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - auth-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: auth-redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6382:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - auth-network
+
+  # MailHog (for development/testing email)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: auth-mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    networks:
+      - auth-network
+
+  # Auth Service
+  auth-service:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile
+    container_name: auth-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - ../../.env
+    environment:
+      # Application
+      APP_ENV: ${APP_ENV:-production}
+      APP_NAME: ${APP_NAME:-auth-service}
+      PORT: ${PORT:-8083}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+
+      # Database
+      DATABASE_URL: ${DATABASE_URL}
+      DB_MAX_OPEN_CONNS: ${DB_MAX_OPEN_CONNS:-25}
+      DB_MAX_IDLE_CONNS: ${DB_MAX_IDLE_CONNS:-25}
+      DB_CONN_MAX_LIFETIME: ${DB_CONN_MAX_LIFETIME:-5m}
+
+      # Redis
+      REDIS_URL: ${REDIS_URL}
+      REDIS_DB: ${REDIS_DB:-0}
+      REDIS_MAX_RETRIES: ${REDIS_MAX_RETRIES:-3}
+
+      # Tokens
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      PASETO_SYMMETRIC_KEY: ${PASETO_SYMMETRIC_KEY}
+      TOKEN_ISSUER: ${TOKEN_ISSUER:-auth-service}
+      ACCESS_TOKEN_DURATION: ${ACCESS_TOKEN_DURATION:-15m}
+      REFRESH_TOKEN_DURATION: ${REFRESH_TOKEN_DURATION:-168h}
+
+      # SMTP
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_FROM: ${SMTP_FROM}
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+
+      # Security
+      ARGON2_MEMORY: ${ARGON2_MEMORY:-65536}
+      ARGON2_ITERATIONS: ${ARGON2_ITERATIONS:-3}
+      ARGON2_PARALLELISM: ${ARGON2_PARALLELISM:-2}
+      MAX_FAILED_LOGIN_ATTEMPTS: ${MAX_FAILED_LOGIN_ATTEMPTS:-5}
+      FAILED_LOGIN_BLOCK_DURATION: ${FAILED_LOGIN_BLOCK_DURATION:-15m}
+
+      # CORS
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+      CORS_ALLOW_CREDENTIALS: "${CORS_ALLOW_CREDENTIALS:-true}"
+
+      # Multi-tenancy
+      TENANT_HEADER_NAME: ${TENANT_HEADER_NAME:-X-Tenant-ID}
+      DEFAULT_TENANT_ID: ${DEFAULT_TENANT_ID}
+    ports:
+      - "8083:8083"
+    networks:
+      - auth-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  auth-network:
+    driver: bridge

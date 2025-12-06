@@ -1,0 +1,32 @@
+Note: Unnecessary use of -X or 
+Note: --request, POST is already 
+Note: inferred.
+* Host localhost:6969 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying [::1]:6969...
+* Connected to localhost (::1) port 6969
+> POST /auth/register HTTP/1.1
+> Host: localhost:6969
+> User-Agent: curl/8.9.1
+> Accept: */*
+> Content-Type: application/json
+> X-Tenant-ID: 00000000-0000-0000-0000-000000000001
+> Content-Length: 163
+> 
+} [163 bytes data]
+* upload completely sent off: 163 bytes
+< HTTP/1.1 201 Created
+< Content-Type: application/json
+< X-Ratelimit-Limit: 60
+< X-Ratelimit-Remaining: 59
+< X-Ratelimit-Reset: 1764508920
+< Date: Sun, 30 Nov 2025 13:21:07 GMT
+< Content-Length: 1264
+< 
+{ [1264 bytes data]
+100  1427  100  1264  100   163   6152    793 --:--:-- --:--:-- --:--:--  6960
+* Connection #0 to host localhost left intact
+{"access_token":"v2.local.zLac5DceGGsYciRwkBakSmXEZrXsPkguVvg-qUGE6Mma1EXL7bI-ONVYrZYw7h0ytFBVaDkG-b6RMooqZ8nmKwBsPB65vxFVnBeVmPRcpHrqP6jML3QgNWgFdrMPZKsas67G5dCSHqO5X5O5mT9ADS2HYuBLIxk2PBknWF_Y5RmmU--zHUdenPQ_NNC8OR6GktBBkiVLxvE2NSV5VGOoWSLyvZg1YZl56uqz_2Jdo6rHR2i4dZZ82N_ExA8fKljUqsMXC6h2hjn6uW0zu9RAEYVYdew17ez3i1PG4DSWIeSnBNTPtWwUUEu70pN7RjCcR6oAQXJQRB7zUHyVdkOSmMPQ843NtppRUchZxl0-wzgdFBvHbWlNO9DDbGBoEQumbt6b5KFpkRrSaImtus7tpEoGBW73z6gNXVyIcRLg-J2JaM_SNviPtm2E7c6JiENr2_S6FPgoQ9cO1IWGK8oe597tNxJeTXc57AIoYLj9yumMYPtN7kGwZhbraWkB-2OY0ZI1h_KW-CETq3KJ3afGYHGKUwBTI0QEciqg1w09vJ_mkGVEvRlQyVzNtBcr8pG_.bnVsbA","expires_in":900,"refresh_token":"v2.local.kBShpwvP1lCXDsvlWpjiGillVjcvHCOqX96YOH3_mKBxo8NLIPPgMx_Muer_JeNuasLcKaYJ8wvfUSZfrzXStAp7pVydFg-gyWG0SL6-sK7lQ1wA4pbSTnsMA19NkWVY0YIISKII-_WkhPpnjrceGIAoq0z_oWMOfOiMWOY-it7lMBx6l5zx45nB3eSzuY15I8WNOGnHw54NTNJCOHYf9Hfk_YmyOVyqUM29F5w80WpquS-X88J4AbL2U7BAiii8YikzFgrU2Cax2Yt_pjcSIR-aGsbQ5g4CX65rheXdNreWaFXY0AAcIXrxG4gL9jswBhkhlQ-bB0Ayjz8Xetebg1x-lFd0VUlHnUNHSCVyQKvFricXheyLizSkHX8DeRKXl1RBxAcyCI7JMuhy_ZaERvDwo9iJW9bqnB7Q1wUYnf6UQXqFsX_rPeAfel3eUAR9fV8JxbIuPqV4krqLb7vmcyLww5BNzGaz0QQ7XmQiu3H2cxS1m3sj47CL_BeJXCHPH67mH-ZdGecQR4RpCaI4lnbdF9tWfWnZ0ihDRTnhL2wFHrvnBpWxZ4KFMzyUnpxENQ.bnVsbA","token_type":"Bearer"}
